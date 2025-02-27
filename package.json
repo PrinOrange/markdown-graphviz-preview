@@ -2,7 +2,7 @@
 	"name": "markdown-graphviz-preview",
 	"displayName": "markdown-graphviz-preview",
 	"description": "Preview Graphviz diagrams for your markdown in Visual Studio Code.",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.97.0"
 	},
