@@ -20,10 +20,10 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "pnpm run compile",
+		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
-		"pretest": "pnpm run compile && pnpm run lint",
+		"pretest": "npm run compile && npm run lint",
 		"format": "biome format --write .",
 		"lint": "biome lint --write .",
 		"test": "vscode-test"
