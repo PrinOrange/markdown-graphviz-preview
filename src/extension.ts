@@ -1,32 +1,31 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
+import * as markdownIt from "markdown-it";
+import { instance } from "@viz-js/viz";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log(
-		'Congratulations, your extension "markdown-graphviz-preview" is now active!',
-	);
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand(
-		"markdown-graphviz-preview.helloWorld",
-		() => {
-			// The code you place here will be executed every time your command is executed
-			// Display a message box to the user
-			vscode.window.showInformationMessage(
-				"Hello World from markdown-graphviz-preview!",
-			);
+export async function activate(_context: vscode.ExtensionContext) {
+	const viz = await instance();
+	return {
+		extendMarkdownIt(md: markdownIt) {
+			const oriHighlight = md.options.highlight;
+			if (oriHighlight == null) return oriHighlight;
+			md.options.highlight = (code, lang, attrs) => {
+				if (lang && lang.match(/^graphviz-.+$/i)) {
+					try {
+						const engine = lang.match(/^graphviz-(.+)$/i)?.[1] || "dot";
+						const renderedSVG = viz.renderString(code, {
+							engine: engine,
+							format: "svg",
+						});
+						return `<pre class="graphviz" style="all:unset;">${renderedSVG}</pre>`;
+					} catch (e: any) {
+						return `<pre><code style="color:#F44336">${e.message}</code></pre>`;
+					}
+				}
+				return oriHighlight(code, lang, attrs);
+			};
+			return md;
 		},
-	);
-
-	context.subscriptions.push(disposable);
+	};
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
