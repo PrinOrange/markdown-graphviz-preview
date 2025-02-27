@@ -7,7 +7,9 @@ export async function activate(_context: vscode.ExtensionContext) {
 	return {
 		extendMarkdownIt(md: markdownIt) {
 			const oriHighlight = md.options.highlight;
-			if (oriHighlight == null) return oriHighlight;
+			if (oriHighlight == null) {
+				return oriHighlight;
+			}
 			md.options.highlight = (code, lang, attrs) => {
 				if (lang && lang.match(/^graphviz-.+$/i)) {
 					try {
@@ -16,7 +18,7 @@ export async function activate(_context: vscode.ExtensionContext) {
 							engine: engine,
 							format: "svg",
 						});
-						return `<pre class="graphviz" style="all:unset;">${renderedSVG}</pre>`;
+						return `<figure class="graphviz" style="all:unset;">${renderedSVG}</figure>`;
 					} catch (e: any) {
 						return `<pre><code style="color:#F44336">${e.message}</code></pre>`;
 					}
