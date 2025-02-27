@@ -17,11 +17,7 @@
 	"contributes": {
 		"markdown.markdownItPlugins": true,
 		"markdown.previewSecurity": "allow-scripts",
-		"markdown.previewStyles": ["./style.css"],
-		"markdown.previewScripts": [
-			"./node_modules/viz.js/viz.js",
-			"./node_modules/viz.js/full.render.js"
-		]
+		"markdown.previewStyles": ["./style.css"]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
