@@ -47,5 +47,5 @@
 		"markdown-it": "^14.1.0"
 	},
 	"publisher": "但为君故",
-	"icon": "./docs/extension-logo.png"
+	"icon": "../docs/extension-logo.png"
 }
