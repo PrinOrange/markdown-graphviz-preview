@@ -1,14 +1,22 @@
 # Markdown Graphviz Preview
 
-This is the Visual Studio Code Extension that allows you preview graphviz diagrams in your markdown file.
+A Visual Studio Code extension that allows you to preview Graphviz diagrams directly in your markdown files. This extension uses [Viz.js](https://github.com/mdaines/viz-js) for Graphviz rendering.
 
-This extension take the [Viz.js](https://github.com/mdaines/viz-js) for inner Graphviz support.
+## Features
+
+- Preview Graphviz diagrams in Markdown files with support for multiple layout engines.
+- Uses Viz.js for rendering Graphviz graphs.
+
+## Installation
+
+1. Install the **Markdown Graphviz Preview** extension in Visual Studio Code.
+2. Open a markdown file and start writing Graphviz code blocks.
 
 ## Usage
 
-Firstly, install this extension in Visual Studio Code.
+### Basic Example
 
-Let's start with a binary tree, draw it with graphviz dot engine. Then open a markdown and write such code block.
+To render a simple binary tree, use the `graphviz-dot` language block. Here's an example using the `dot` layout engine:
 
 ````markdown
 ```graphviz-dot
@@ -33,4 +41,50 @@ digraph BinaryTree {
 ```
 ````
 
-It will render the diagram in markdown preview.
+This will render the diagram in your markdown preview:
+
+![Binary Tree](./docs/graphviz-dot.png)
+
+### Changing Layout Engines
+
+You can also change the layout engine by changing the language suffix in the code block. For example, to use the `circo` engine, change the block’s language to `graphviz-circo`.
+
+````markdown
+```graphviz-circo
+digraph BinaryTree {
+    node [shape=circle];
+
+    A -> B;
+    A -> C;
+    B -> D;
+    B -> E;
+    C -> F;
+    C -> G;
+
+    A [label="Root"];
+    B [label="Left"];
+    C [label="Right"];
+    D [label="L1"];
+    E [label="L2"];
+    F [label="R1"];
+    G [label="R2"];
+}
+```
+````
+
+This will render the diagram with the `circo` engine:
+
+![Circo Tree](./docs/graphviz-circo.png)
+
+### Layout Engines
+
+For more information on available layout engines, check the [Graphviz documentation](https://graphviz.org/docs/layouts/).
+
+## Related Projects
+
+- [Graphviz](https://gitlab.com/graphviz/graphviz)
+- [Viz.js](https://github.com/mdaines/viz-js)
+
+## License
+
+MIT © [但为君故](https://github.com/prinorange)

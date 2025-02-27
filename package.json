@@ -41,5 +41,6 @@
 	"dependencies": {
 		"@viz-js/viz": "^3.11.0",
 		"markdown-it": "^14.1.0"
-	}
+	},
+	"icon": "./docs/extension-logo.png"
 }
