@@ -6,25 +6,30 @@ export async function activate(_context: vscode.ExtensionContext) {
 	const viz = await instance();
 	return {
 		extendMarkdownIt(md: markdownIt) {
-			const oriHighlight = md.options.highlight;
-			if (oriHighlight == null) {
-				return oriHighlight;
+			const defaultFence = md.renderer.rules.fence;
+			if (defaultFence == null) {
+				return;
 			}
-			md.options.highlight = (code, lang, attrs) => {
-				if (lang && lang.match(/^graphviz-.+$/i)) {
+
+			md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+				const token = tokens[idx];
+				const lang = token.info.trim();
+
+				if (lang.match(/^graphviz-.+$/i)) {
 					try {
 						const engine = lang.match(/^graphviz-(.+)$/i)?.[1] || "dot";
-						const renderedSVG = viz.renderString(code, {
-							engine: engine,
+						const renderedSVG = viz.renderString(token.content, {
+							engine,
 							format: "svg",
 						});
-						return `<figure class="graphviz" style="all:unset;">${renderedSVG}</figure>`;
+						return `<figure class="graphviz">${renderedSVG}</figure>`;
 					} catch (e: any) {
 						return `<pre><code style="color:#F44336">${e.message}</code></pre>`;
 					}
 				}
-				return oriHighlight(code, lang, attrs);
+				return defaultFence(tokens, idx, options, env, self);
 			};
+
 			return md;
 		},
 	};
