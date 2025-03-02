@@ -16,7 +16,32 @@ A Visual Studio Code extension that allows you to preview Graphviz diagrams dire
 
 ### Basic Example
 
-To render a simple binary tree, use the `graphviz-dot` language block. Here's an example using the `dot` layout engine:
+To render a simple binary tree with `dot` Engine, use the `graphviz-dot` or `dot` language block. Here's an example using the `dot` layout engine:
+
+````markdown
+```dot
+digraph BinaryTree {
+    node [shape=circle];
+
+    A -> B;
+    A -> C;
+    B -> D;
+    B -> E;
+    C -> F;
+    C -> G;
+
+    A [label="Root"];
+    B [label="Left"];
+    C [label="Right"];
+    D [label="L1"];
+    E [label="L2"];
+    F [label="R1"];
+    G [label="R2"];
+}
+```
+````
+
+Or use `graphviz-dot` language mark,
 
 ````markdown
 ```graphviz-dot
@@ -47,7 +72,32 @@ This will render the diagram in your markdown preview:
 
 ### Changing Layout Engines
 
-You can also change the layout engine by changing the language suffix in the code block. For example, to use the `circo` engine, change the block’s language to `graphviz-circo`.
+You can also change the layout engine by changing the language suffix in the code block. For example, to use the `circo` engine, change the block’s language to `graphviz-circo` or `circo`.
+
+````markdown
+```circo
+digraph BinaryTree {
+    node [shape=circle];
+
+    A -> B;
+    A -> C;
+    B -> D;
+    B -> E;
+    C -> F;
+    C -> G;
+
+    A [label="Root"];
+    B [label="Left"];
+    C [label="Right"];
+    D [label="L1"];
+    E [label="L2"];
+    F [label="R1"];
+    G [label="R2"];
+}
+```
+````
+
+Or use `graphviz-circo` language mark,
 
 ````markdown
 ```graphviz-circo
@@ -78,7 +128,7 @@ This will render the diagram with the `circo` engine:
 
 ### Layout Engines
 
-For more information on available layout engines, check the [Graphviz documentation](https://graphviz.org/docs/layouts/).
+If you don't specify any engine, it will take `dot` engine as the default engine. For more information on available layout engines, check the [Graphviz documentation](https://graphviz.org/docs/layouts/).
 
 ## Related Projects
 

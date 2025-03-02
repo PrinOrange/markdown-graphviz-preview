@@ -2,6 +2,19 @@ import * as vscode from "vscode";
 import * as markdownIt from "markdown-it";
 import { instance } from "@viz-js/viz";
 
+const layoutEngines = [
+	"dot",
+	"neato",
+	"fdp",
+	"sfdp",
+	"circo",
+	"twopi",
+	"nop",
+	"nop2",
+	"osage",
+	"patchwork",
+];
+
 export async function activate(_context: vscode.ExtensionContext) {
 	const viz = await instance();
 	return {
@@ -15,19 +28,27 @@ export async function activate(_context: vscode.ExtensionContext) {
 				const token = tokens[idx];
 				const lang = token.info.trim();
 
-				if (lang.match(/^graphviz-.+$/i)) {
-					try {
-						const engine = lang.match(/^graphviz-(.+)$/i)?.[1] || "dot";
-						const renderedSVG = viz.renderString(token.content, {
-							engine,
-							format: "svg",
-						});
-						return `<figure class="graphviz">${renderedSVG}</figure>`;
-					} catch (e: any) {
-						return `<pre><code style="color:#F44336">${e.message}</code></pre>`;
-					}
+				let engine: string;
+
+				if (layoutEngines.includes(lang)) {
+					engine = lang;
+				} else if (lang.match(/^graphviz-.+$/i)) {
+					engine = lang.split("-")[1];
+				} else if (lang === "graphviz") {
+					engine = "dot";
+				} else {
+					return defaultFence(tokens, idx, options, env, self);
 				}
-				return defaultFence(tokens, idx, options, env, self);
+
+				try {
+					const renderedSVG = viz.renderString(token.content, {
+						engine,
+						format: "svg",
+					});
+					return `<figure class="graphviz">${renderedSVG}</figure>`;
+				} catch (e: any) {
+					return `<pre><code style="color:#F44336">${e.message}</code></pre>`;
+				}
 			};
 
 			return md;
